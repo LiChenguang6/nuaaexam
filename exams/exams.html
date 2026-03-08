@@ -173,7 +173,7 @@ function searchFolders(){
 
 let kw=document.getElementById("search").value.trim()
 
-let folders=document.querySelectorAll(".folder")
+let folders=Array.from(document.querySelectorAll(".folder"))
 
 if(kw===""){
 folders.forEach(f=>f.style.display="block")
@@ -183,31 +183,9 @@ return
 
 document.getElementById("resetBtn").style.display="inline-block"
 
-let results=[]
-
-folders.forEach(f=>{
+let results = folders.map(f=>{
 
 let name=f.innerText
-
-let score=0
-
-// 完全匹配
-if(name===kw){
-score=1000
-}
-
-// 前缀匹配
-else if(name.startsWith(kw)){
-score=800
-}
-
-// 包含匹配
-else if(name.includes(kw)){
-score=500
-}
-
-// 字符匹配比例
-else{
 
 let matchCount=0
 
@@ -215,27 +193,26 @@ for(let ch of kw){
 if(name.includes(ch)) matchCount++
 }
 
-score=matchCount/kw.length*100
-}
+let score = matchCount / kw.length
 
-results.push({
+return {
 el:f,
 score:score
-})
+}
 
 })
 
-// 按得分排序
+// 完全按照 PHP 逻辑
+results = results.filter(r=>r.score>0.8)
+
 results.sort((a,b)=>b.score-a.score)
 
 // 隐藏全部
 folders.forEach(f=>f.style.display="none")
 
-// 按排序显示
+// 显示匹配
 results.forEach(r=>{
-if(r.score>0){
 r.el.style.display="block"
-}
 })
 
 }
