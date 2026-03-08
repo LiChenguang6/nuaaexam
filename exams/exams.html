@@ -31,15 +31,34 @@ font-weight:normal;
 
 /* 搜索框 */
 
-#search{
-width:100%;
+.search-box{
+display:flex;
 max-width:420px;
+margin-bottom:20px;
+}
+
+.search-box input{
+flex:1;
 padding:12px 14px;
 font-size:16px;
 border:1px solid #ccc;
-border-radius:8px;
+border-radius:8px 0 0 8px;
+border-right:none;
 box-sizing:border-box;
-margin-bottom:20px;
+}
+
+.search-box button{
+padding:12px 18px;
+font-size:16px;
+border:1px solid #ccc;
+background:#0077cc;
+color:white;
+border-radius:0 8px 8px 0;
+cursor:pointer;
+}
+
+.search-box button:hover{
+background:#005fa3;
 }
 
 /* 文件夹 */
@@ -77,7 +96,10 @@ color:#0077cc;
 <h2>试卷入口</h2>
 <h3>推荐使用加速器或者校园网访问</h3>
 
+<div class="search-box">
 <input id="search" placeholder="搜索试卷..." oninput="searchFolders()">
+<button onclick="searchFolders()">搜索</button>
+</div>
 
 <div id="list"></div>
 
@@ -145,13 +167,17 @@ folders.forEach(f=>{
 
 let name=f.innerText
 
-let score=0
+let matchCount=0
 
 for(let ch of kw){
-if(name.includes(ch)) score++
+if(name.includes(ch)) matchCount++
 }
 
-score=score/kw.length
+let score=matchCount/kw.length
+
+if(name.includes(kw)){
+score+=1
+}
 
 results.push({
 el:f,
@@ -165,12 +191,20 @@ results.sort((a,b)=>b.score-a.score)
 folders.forEach(f=>f.style.display="none")
 
 results.forEach(r=>{
-if(r.score>0.4){
+if(r.score>0.3){
 r.el.style.display="block"
 }
 })
 
 }
+
+/* 支持回车搜索 */
+
+document.getElementById("search").addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+searchFolders()
+}
+})
 
 </script>
 
