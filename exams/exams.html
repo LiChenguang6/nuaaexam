@@ -51,15 +51,20 @@ box-sizing:border-box;
 padding:12px 18px;
 font-size:16px;
 border:1px solid #ccc;
-background:#0077cc;
 color:white;
 cursor:pointer;
+white-space:nowrap;   /* 防止手机端竖排文字 */
 }
 
 /* 搜索按钮 */
 
 .search-btn{
+background:#0077cc;
 border-radius:0;
+}
+
+.search-btn:hover{
+background:#005fa3;
 }
 
 /* 主页按钮 */
@@ -71,10 +76,6 @@ border-radius:0 8px 8px 0;
 
 .home-btn:hover{
 background:#1f8c38;
-}
-
-.search-btn:hover{
-background:#005fa3;
 }
 
 /* 返回按钮 */
