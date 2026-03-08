@@ -33,7 +33,7 @@ font-weight:normal;
 
 .search-box{
 display:flex;
-max-width:420px;
+max-width:520px;
 margin-bottom:10px;
 }
 
@@ -53,11 +53,27 @@ font-size:16px;
 border:1px solid #ccc;
 background:#0077cc;
 color:white;
-border-radius:0 8px 8px 0;
 cursor:pointer;
 }
 
-.search-box button:hover{
+/* 搜索按钮 */
+
+.search-btn{
+border-radius:0;
+}
+
+/* 主页按钮 */
+
+.home-btn{
+background:#28a745;
+border-radius:0 8px 8px 0;
+}
+
+.home-btn:hover{
+background:#1f8c38;
+}
+
+.search-btn:hover{
 background:#005fa3;
 }
 
@@ -115,7 +131,8 @@ color:#0077cc;
 
 <div class="search-box">
 <input id="search" placeholder="搜索试卷..." oninput="searchFolders()">
-<button onclick="searchFolders()">搜索</button>
+<button class="search-btn" onclick="searchFolders()">搜索</button>
+<button class="home-btn" onclick="goHome()">主页</button>
 </div>
 
 <button id="resetBtn" onclick="resetSearch()">返回全部</button>
@@ -123,6 +140,10 @@ color:#0077cc;
 <div id="list"></div>
 
 <script>
+
+function goHome(){
+location.href="https://nuaaexam.store"
+}
 
 let exams={}
 let allFolders=[]
@@ -202,15 +223,12 @@ score:score
 
 })
 
-// 完全按照 PHP 逻辑
 results = results.filter(r=>r.score>0.8)
 
 results.sort((a,b)=>b.score-a.score)
 
-// 隐藏全部
 folders.forEach(f=>f.style.display="none")
 
-// 显示匹配
 results.forEach(r=>{
 r.el.style.display="block"
 })
@@ -228,8 +246,6 @@ folders.forEach(f=>f.style.display="block")
 document.getElementById("resetBtn").style.display="none"
 
 }
-
-/* Enter 搜索 */
 
 document.getElementById("search").addEventListener("keypress",function(e){
 if(e.key==="Enter"){
