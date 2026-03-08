@@ -59,7 +59,7 @@ function render(){
 let list=document.getElementById("list")
 
 for(let dir in exams){
-
+if(dir.startsWith("_")) continue
 if(dir==="---"){
 let d=document.createElement("div")
 d.innerHTML="—— 以下为部分同学急需科目 ——"

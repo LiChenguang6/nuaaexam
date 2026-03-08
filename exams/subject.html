@@ -64,7 +64,7 @@ return
 }
 
 for(let name in files){
-
+if(name.startsWith("_")) continue
 let div=document.createElement("div")
 div.className="file"
 
