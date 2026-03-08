@@ -189,16 +189,33 @@ folders.forEach(f=>{
 
 let name=f.innerText
 
+let score=0
+
+// 完全匹配
+if(name===kw){
+score=1000
+}
+
+// 前缀匹配
+else if(name.startsWith(kw)){
+score=800
+}
+
+// 包含匹配
+else if(name.includes(kw)){
+score=500
+}
+
+// 字符匹配比例
+else{
+
 let matchCount=0
 
 for(let ch of kw){
 if(name.includes(ch)) matchCount++
 }
 
-let score=matchCount/kw.length
-
-if(name.includes(kw)){
-score+=1
+score=matchCount/kw.length*100
 }
 
 results.push({
@@ -208,12 +225,15 @@ score:score
 
 })
 
+// 按得分排序
 results.sort((a,b)=>b.score-a.score)
 
+// 隐藏全部
 folders.forEach(f=>f.style.display="none")
 
+// 按排序显示
 results.forEach(r=>{
-if(r.score>0.3){
+if(r.score>0){
 r.el.style.display="block"
 }
 })
