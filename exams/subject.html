@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>试卷</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f8f8f8;
+padding:20px;
+}
+
+.file a{
+display:block;
+padding:14px 18px;
+background:#fff;
+border-radius:8px;
+margin-bottom:10px;
+text-decoration:none;
+color:#0077cc;
+}
+
+.file a:hover{
+background:#e6f0ff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2 id="title"></h2>
+
+<div id="files"></div>
+
+<a href="index.html">返回</a>
+
+<script>
+
+const urlParams=new URLSearchParams(location.search)
+const dir=urlParams.get("dir")
+
+document.getElementById("title").innerText=dir+"试卷"
+
+fetch("pdf_mapping_nested.json")
+.then(r=>r.json())
+.then(data=>{
+
+let files=data[dir]
+
+let container=document.getElementById("files")
+
+if(!files){
+
+container.innerHTML="暂无试卷"
+
+return
+
+}
+
+for(let name in files){
+
+let div=document.createElement("div")
+div.className="file"
+
+let a=document.createElement("a")
+
+a.href=files[name]
+a.target="_blank"
+a.innerText=name
+
+div.appendChild(a)
+
+container.appendChild(div)
+
+}
+
+})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>试卷入口</title>
+
+<script src="ads.js"></script>
+
+<style>
+body{
+font-family:Arial;
+background:#f8f8f8;
+padding:20px;
+}
+
+.folder{
+display:block;
+padding:14px 18px;
+margin-bottom:12px;
+background:#fff;
+border-radius:8px;
+color:#0077cc;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.folder:hover{
+background:#e6f0ff;
+}
+</style>
+
+</head>
+
+<body>
+
+<h2>试卷入口</h2>
+
+<input id="search" placeholder="搜索试卷">
+
+<button onclick="searchFolders()">搜索</button>
+
+<div id="list"></div>
+
+<script>
+
+let exams={}
+
+fetch("pdf_mapping_nested.json")
+.then(r=>r.json())
+.then(data=>{
+exams=data
+render()
+})
+
+function render(){
+
+let list=document.getElementById("list")
+
+for(let dir in exams){
+
+if(dir==="---"){
+let d=document.createElement("div")
+d.innerHTML="—— 以下为部分同学急需科目 ——"
+list.appendChild(d)
+continue
+}
+
+let div=document.createElement("div")
+div.className="folder"
+div.innerText=dir
+
+div.onclick=()=>{
+location.href="subject.html?dir="+encodeURIComponent(dir)
+}
+
+list.appendChild(div)
+
+}
+
+}
+
+function searchFolders(){
+
+let kw=document.getElementById("search").value
+
+let folders=document.querySelectorAll(".folder")
+
+folders.forEach(f=>{
+if(f.innerText.includes(kw)){
+f.style.display="block"
+}else{
+f.style.display="none"
+}
+})
+
+}
+
+</script>
+
+</body>
+</html>
